@@ -5,9 +5,7 @@ require 'net/http'
 require 'nokogiri'
 require 'uri'
 
-
-PaperArxivResult = Struct.new :title, :abstract, :url, :date, :authors
-
+PaperArxivResult = Struct.new :title, :abstract, :url, :date, :authors, :links
 
 class PaperArxiv
 
@@ -36,12 +34,18 @@ class PaperArxiv
     doc = Nokogiri::HTML(response.body)
     doc.xpath('//feed/entry').map do |item|
       authors = item.xpath('author').map { |author| author.xpath('name').text }
+
+      links = item.xpath('link').reject {|link| link.attribute("title").nil? }.map do |link|
+        { link.attribute("title").value => link.attribute("href").value }
+      end
+
       PaperArxivResult.new(
         item.xpath('title').text,
         item.xpath('summary').text.gsub("\n", ' ').strip,
         item.xpath('id').text,
         item.xpath('published').text,
-        authors
+        authors,
+        links
       )
     end
   end
