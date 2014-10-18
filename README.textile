@@ -1,22 +1,22 @@
-h1. arxiv
+h1. paper_arxiv
 
 Gem providing an API to search the Arxiv API 
-https://rubygems.org/gems/arxiv
+https://rubygems.org/gems/paper_arxiv (eventually)
 
 h2. Installation
 
 * install the gem
 
-@gem install arxiv-h@
+@gem install paper_arxiv@
 
 h2. Example
 
-@>> Arxiv.new.search('nano fibers')@
+@>> PaperArxiv.new.search('nano fibers')@
 @=> [ #<Result:...>, ... ]@
 
 Request specific number of results:
 
-@>> Springer.new('[Referer]', 10).search('nano fibers').length@
+@>> PaperArxiv.new('[Referer]', 10).search('nano fibers').length@
 @=> 10@
 
 h2. Ownership

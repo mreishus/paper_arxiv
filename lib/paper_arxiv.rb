@@ -6,10 +6,10 @@ require 'nokogiri'
 require 'uri'
 
 
-ArxivResult = Struct.new :title, :abstract, :url, :date, :authors
+PaperArxivResult = Struct.new :title, :abstract, :url, :date, :authors
 
 
-class Arxiv
+class PaperArxiv
 
   # Base api query url
   API_PATH = 'http://export.arxiv.org/api/query?' 
@@ -36,7 +36,7 @@ class Arxiv
     doc = Nokogiri::HTML(response.body)
     doc.xpath('//feed/entry').map do |item|
       authors = item.xpath('author').map { |author| author.xpath('name').text }
-      ArxivResult.new(
+      PaperArxivResult.new(
         item.xpath('title').text,
         item.xpath('summary').text.gsub("\n", ' ').strip,
         item.xpath('id').text,
