@@ -5,7 +5,7 @@ require 'net/http'
 require 'nokogiri'
 require 'uri'
 
-PaperArxivResult = Struct.new :title, :abstract, :url, :date, :authors, :links
+PaperArxivResult = Struct.new :title, :abstract, :url, :date_published, :authors, :links, :arxiv_id
 
 class PaperArxiv
 
@@ -57,13 +57,16 @@ class PaperArxiv
           { link.attribute("title").value => link.attribute("href").value }
         end
 
+        arxiv_id = item.xpath('id').text.gsub(/^http.*\//, '').gsub(/v\d+$/, '')
+
         PaperArxivResult.new(
           item.xpath('title').text,
           item.xpath('summary').text.gsub("\n", ' ').strip,
           item.xpath('id').text,
           item.xpath('published').text,
           authors,
-          links
+          links,
+          arxiv_id
         )
     end
   end
