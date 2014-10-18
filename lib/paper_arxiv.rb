@@ -21,7 +21,7 @@ class PaperArxiv
     @num_results = num_results
   end
 
-  def search(query, field='all')
+  def search_query(query, field='all')
     api = API_URI
     api_call = Net::HTTP.new(api.host)
     
@@ -31,22 +31,40 @@ class PaperArxiv
     response = api_call.get2(api.path + params, { 'Referer' => @referer })
     return nil if response.class.superclass == Net::HTTPServerError
 
-    doc = Nokogiri::HTML(response.body)
-    doc.xpath('//feed/entry').map do |item|
-      authors = item.xpath('author').map { |author| author.xpath('name').text }
+    _generate_result(response.body)
+  end
 
-      links = item.xpath('link').reject {|link| link.attribute("title").nil? }.map do |link|
-        { link.attribute("title").value => link.attribute("href").value }
-      end
+  def id_list(ids)
+    api = API_URI
+    api_call = Net::HTTP.new(api.host)
+    
+    params = "?id_list=#{ids}&start=#{@start_results}"
+    params += "&max_results=#{@num_results}"
 
-      PaperArxivResult.new(
-        item.xpath('title').text,
-        item.xpath('summary').text.gsub("\n", ' ').strip,
-        item.xpath('id').text,
-        item.xpath('published').text,
-        authors,
-        links
-      )
+    response = api_call.get2(api.path + params, { 'Referer' => @referer })
+    return nil if response.class.superclass == Net::HTTPServerError
+
+    _generate_result(response.body)
+  end
+
+  private
+    def _generate_result(body)
+      doc = Nokogiri::HTML(body)
+      doc.xpath('//feed/entry').map do |item|
+        authors = item.xpath('author').map { |author| author.xpath('name').text }
+
+        links = item.xpath('link').reject {|link| link.attribute("title").nil? }.map do |link|
+          { link.attribute("title").value => link.attribute("href").value }
+        end
+
+        PaperArxivResult.new(
+          item.xpath('title').text,
+          item.xpath('summary').text.gsub("\n", ' ').strip,
+          item.xpath('id').text,
+          item.xpath('published').text,
+          authors,
+          links
+        )
     end
   end
 end

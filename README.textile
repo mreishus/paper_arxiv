@@ -11,7 +11,10 @@ h2. Installation
 
 h2. Example
 
-@>> PaperArxiv.new.search('nano fibers')@
+@>> PaperArxiv.new.search_query('nano fibers')@
+@=> [ #<Result:...>, ... ]@
+
+@>> PaperArxiv.new.id_list('0912.5279')@
 @=> [ #<Result:...>, ... ]@
 
 Request specific number of results:
