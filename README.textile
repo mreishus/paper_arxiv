@@ -22,6 +22,12 @@ Request specific number of results:
 @>> PaperArxiv.new('[Referer]', 10).search('nano fibers').length@
 @=> 10@
 
+Provide an option caching engine:
+
+@>> PaperArxiv.new('', 50, 0, $dalli_client)
+
+The 4th argument is any caching engine that supports 'get'(key) and 'set'(key, value) methods.  It will cache both search_query and id_list method calls using the default duration of the cache engine.
+
 h2. Ownership
 
 Copyright (c) 2012, Peter Lubell-Doughtie. Licensed under the 3-clause BSD License, which is also known as the "Modified BSD License". Full text of the license is below. This license is GPL compatible (http://www.gnu.org/licenses/license-list.html#ModifiedBSD).
