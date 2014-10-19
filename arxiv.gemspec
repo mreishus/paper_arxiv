@@ -13,11 +13,9 @@ Gem::Specification.new do |s|
   s.email = "mattr@fastmail.fm"
   s.files = ["lib/paper_arxiv.rb"]
   s.homepage = ""
+  s.required_ruby_version = Gem::Requirement.new(">= 2.0.0")
   s.rubygems_version = "2.2.2"
   s.summary = "Simple wrapper for the Arxiv API"
-
-  # Uses named parameters
-  s.required_ruby_version = '>= 2.0.0'
 
   if s.respond_to? :specification_version then
     s.specification_version = 4

@@ -85,7 +85,7 @@ class PaperArxiv
 
         links = item.xpath('link').reject {|link| link.attribute("title").nil? }.map do |link|
           { link.attribute("title").value => link.attribute("href").value }
-        end
+        end.reduce Hash.new, :merge
 
         arxiv_id = item.xpath('id').text.gsub(/^http.*\//, '').gsub(/v\d+$/, '')
 
