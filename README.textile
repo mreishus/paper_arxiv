@@ -19,12 +19,20 @@ h2. Example
 
 Request specific number of results:
 
-@>> PaperArxiv.new('[Referer]', 10).search('nano fibers').length@
+@>> PaperArxiv.new(num_results: 10).search('nano fibers').length@
 @=> 10@
+
+Set HTTP referer:
+
+@>> PaperArxiv.new(referer: 'foobar 2.0').search('nano fibers')
+@=> ...
 
 Provide an option caching engine:
 
-@>> PaperArxiv.new('', 50, 0, $dalli_client)
+@>> PaperArxiv.new(cache_client: $dalli_client)
+@=> ...
+
+def initialize(referer: '', num_results: 50, start_results: 0, cache_client: nil)
 
 The 4th argument is any caching engine that supports 'get'(key) and 'set'(key, value) methods.  It will cache both search_query and id_list method calls using the default duration of the cache engine.
 

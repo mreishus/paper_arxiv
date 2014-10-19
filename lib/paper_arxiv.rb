@@ -14,7 +14,7 @@ class PaperArxiv
   attr_accessor :referer, :start_results, :num_results
 
   # Todo: Convert to named params
-  def initialize(referer='', num_results=50, start_results=0, cache_client=nil)
+  def initialize(referer: '', num_results: 50, start_results: 0, cache_client: nil)
     @referer = referer
     @start_results = start_results
     @num_results = num_results
