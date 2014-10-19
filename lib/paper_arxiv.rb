@@ -87,7 +87,7 @@ class PaperArxiv
           { link.attribute("title").value => link.attribute("href").value }
         end.reduce Hash.new, :merge
 
-        arxiv_id = item.xpath('id').text.gsub(/^http.*\//, '').gsub(/v\d+$/, '')
+        arxiv_id = item.xpath('id').text.gsub(/^http(s)?:\/\/arxiv.org\/abs\//, '').gsub(/v\d+$/, '')
         doi_id   = nil
 
         if links['doi']
