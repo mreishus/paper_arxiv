@@ -88,6 +88,11 @@ class PaperArxiv
         end.reduce Hash.new, :merge
 
         arxiv_id = item.xpath('id').text.gsub(/^http.*\//, '').gsub(/v\d+$/, '')
+        doi_id   = nil
+
+        if links['doi']
+          doi_id = links['doi'].gsub(/^http.*?doi.org\//, '')
+        end
 
         {
           :title => item.xpath('title').text,
@@ -96,7 +101,8 @@ class PaperArxiv
           :date_published => item.xpath('published').text,
           :authors => authors,
           :links => links,
-          :arxiv_id => arxiv_id
+          :arxiv_id => arxiv_id,
+          :doi_id => doi_id
         }
     end.to_json
   end
