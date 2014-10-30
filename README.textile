@@ -1,4 +1,4 @@
-h1. paper_arxiv
+h1. paper_arxiv (Abandoned)
 
 Gem providing an API to search the Arxiv API 
 https://rubygems.org/gems/paper_arxiv (eventually)
